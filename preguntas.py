@@ -11,9 +11,19 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import itertools
+from collections import Counter
+from datetime import datetime
+from operator import itemgetter
+
+with open ("data.csv", "r") as f:
+    data = f.readlines
+data = [line.replace('\t','|').replace('\n','') for line in data]
+data= [line.split ('|') for line in data]
 
 
 def pregunta_01():
+
     """
     Retorne la suma de la segunda columna.
 
@@ -21,7 +31,14 @@ def pregunta_01():
     214
 
     """
-    return
+
+    colum2 = 0
+    for row in data:
+        colum2 += int(row[1])
+
+    return colum2
+
+
 
 
 def pregunta_02():
@@ -39,7 +56,14 @@ def pregunta_02():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        if row[0] in counter.keys():
+            counter[row[0]] += 1
+        else:
+            counter[row[0]] = 1
+            
+    return sorted(counter.items())
 
 
 def pregunta_03():
@@ -57,7 +81,15 @@ def pregunta_03():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        if row[0] in counter.keys():
+            counter[row[0]] += int(row[1])
+        else:
+            counter[row[0]]= int(row[1])
+                      
+    return sorted(counter.items())
+    
 
 
 def pregunta_04():
@@ -82,7 +114,17 @@ def pregunta_04():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        month = row[2].split('-')[1]
+        if month in counter.keys():
+            counter[month] += 1
+        else:
+            counter[month] = 1
+            
+    return sorted(counter.items())
+
+    
 
 
 def pregunta_05():
@@ -100,7 +142,17 @@ def pregunta_05():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        value = int(row[1])
+        if row[0] in counter.keys():
+            if value > counter[row[0]][0]:
+                counter[row[0]][0] =value
+            if value < counter[row[0]][1]:
+                counter[row[0]][1] = value
+        else:
+            counter[row[0]] [value,value]
+    return[(r[0], r[1][0], r[1][1]) for r in sorted(counter.items())]
 
 
 def pregunta_06():
@@ -125,7 +177,21 @@ def pregunta_06():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        pairs= row[4].split(',')
+        for pair in pairs:
+            value = pair.split(':')
+            value[1] = int(value[1])
+            if value[0] in counter.keys():
+                if value[1] > counter[value[0]][0]:
+                   counter[value[0]][0] = value [1]
+                if value[1] < counter[value[0]][1]:
+                    counter[value[0]][1] = value[1]
+        else:
+            counter[value[0]] [value[1],value[1]]
+    return[(r[0], r[1][1], r[1][0]) for r in sorted(counter.items())]
+    
 
 
 def pregunta_07():
@@ -149,7 +215,15 @@ def pregunta_07():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        value = int(row[1])
+        if value in counter.keys():
+            counter[value].append(row[0])
+        else:
+            counter[value]= [row[0]]
+                   
+    return sorted (counter.items())    
 
 
 def pregunta_08():
@@ -174,7 +248,15 @@ def pregunta_08():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        value = int(row[1])
+        if value in counter.keys():
+            counter[value].append(row[0])
+        else:
+            counter[value]= [row[0]]
+                   
+    return [(r[0], sorted(list(set(r[1])))) for r in sorted(counter.items())]
 
 
 def pregunta_09():
@@ -197,7 +279,18 @@ def pregunta_09():
     }
 
     """
-    return
+    counter = {}
+    for row in data:
+        pairs = row [4].split(',')
+        for pair in pairs:
+            value = pair.split(':')
+            value[1] = int (value[1])
+            if value [0] in counter.keys():
+                counter[value[0]] += 1
+            else:
+                counter[value[0]]=1
+    return counter
+    
 
 
 def pregunta_10():
@@ -218,7 +311,15 @@ def pregunta_10():
 
 
     """
-    return
+    counter = []
+    for row in data:
+        counter.append((
+            row[0],
+            len (row[3].split(',')),
+            len(row[4].split(','))
+            ))
+    return counter
+
 
 
 def pregunta_11():
@@ -239,7 +340,18 @@ def pregunta_11():
 
 
     """
-    return
+    counter = {}
+    for row in data:
+       value = int(row[1])
+       pairs = row[3].split(',')
+       for pair in pairs:
+           if pair in counter.keys():
+              counter[pair] += value
+    else:
+            counter[pair]= value
+            
+    return counter
+
 
 
 def pregunta_12():
@@ -257,4 +369,12 @@ def pregunta_12():
     }
 
     """
-    return
+    counter ={}
+    for row in data:
+        if row[0] not in counter.keys():
+            counter[row[0]] = 0
+        pairs = row[4].replace (':',',').split(',')
+        for pair in pairs:
+            if pair.isdigit():
+                counter[row[0]] += in(pair)
+    return counter
