@@ -11,7 +11,6 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-import itertools
 from collections import Counter
 from datetime import datetime
 from operator import itemgetter
@@ -23,20 +22,19 @@ data= [line.split ('|') for line in data]
 
 
 def pregunta_01():
-
     """
-    Retorne la suma de la segunda columna.
+    Retorne la suma de la segunda columna
 
     Rta/
     214
 
     """
-
     colum2 = 0
     for row in data:
         colum2 += int(row[1])
 
     return colum2
+
 
 
 
@@ -89,7 +87,6 @@ def pregunta_03():
             counter[row[0]]= int(row[1])
                       
     return sorted(counter.items())
-    
 
 
 def pregunta_04():
@@ -123,8 +120,6 @@ def pregunta_04():
             counter[month] = 1
             
     return sorted(counter.items())
-
-    
 
 
 def pregunta_05():
@@ -191,7 +186,6 @@ def pregunta_06():
         else:
             counter[value[0]] [value[1],value[1]]
     return[(r[0], r[1][1], r[1][0]) for r in sorted(counter.items())]
-    
 
 
 def pregunta_07():
@@ -223,7 +217,7 @@ def pregunta_07():
         else:
             counter[value]= [row[0]]
                    
-    return sorted (counter.items())    
+    return sorted (counter.items())   
 
 
 def pregunta_08():
@@ -290,7 +284,6 @@ def pregunta_09():
             else:
                 counter[value[0]]=1
     return counter
-    
 
 
 def pregunta_10():
@@ -319,7 +312,6 @@ def pregunta_10():
             len(row[4].split(','))
             ))
     return counter
-
 
 
 def pregunta_11():
@@ -353,7 +345,6 @@ def pregunta_11():
     return counter
 
 
-
 def pregunta_12():
     """
     Genere un diccionario que contengan como clave la columna 1 y como valor la suma de
@@ -376,5 +367,5 @@ def pregunta_12():
         pairs = row[4].replace (':',',').split(',')
         for pair in pairs:
             if pair.isdigit():
-                counter[row[0]] += in(pair)
+                counter[row[0]] += int (pair)
     return counter
