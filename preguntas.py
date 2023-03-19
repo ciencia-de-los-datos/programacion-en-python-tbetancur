@@ -12,16 +12,29 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+import csv
+
+data= open('data.csv' , newline='')  
+data = csv.reader(data, delimiter='\t')
+
+
 
 def pregunta_01():
     """
-    Retorne la suma de la segunda columna.
+    Retorne la suma de la segunda columna
 
     Rta/
     214
 
     """
-    return
+    colum2 = 0
+    for row in data:
+        colum2 += int(row[1])
+
+    return colum2
+
+
+
 
 
 def pregunta_02():
@@ -39,7 +52,15 @@ def pregunta_02():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        
+        if row[0] in counter.keys():
+            counter[row[0]] += 1
+        else:
+            counter[row[0]] = 1
+            
+    return sorted(counter.items())
 
 
 def pregunta_03():
@@ -57,7 +78,14 @@ def pregunta_03():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        if row[0] in counter.keys():
+            counter[row[0]] += int(row[1])
+        else:
+            counter[row[0]]= int(row[1])
+                      
+    return sorted(counter.items())
 
 
 def pregunta_04():
@@ -82,7 +110,15 @@ def pregunta_04():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        month = row[2].split('-')[1]
+        if month in counter.keys():
+            counter[month] += 1
+        else:
+            counter[month] = 1
+            
+    return sorted(counter.items())
 
 
 def pregunta_05():
@@ -100,7 +136,19 @@ def pregunta_05():
     ]
 
     """
-    return
+    max_min = {}
+    for row in data:
+        letter = row[0]
+        value = int(row[1])
+         
+        if letter not in max_min:
+            max_min[letter] = [value,value]
+        else:
+            max_min[letter][0]= max(max_min[letter][0], value)
+            max_min[letter][1]= min(max_min[letter][1], value)
+        r_max_min = [(letter, max_min[letter][0],max_min[letter][1]) for letter in sorted(max_min)]
+    return r_max_min  
+
 
 
 def pregunta_06():
@@ -125,8 +173,25 @@ def pregunta_06():
     ]
 
     """
-    return
+    valores = {}
+    valores_min = {}
+    valores_max = {}
 
+    for row in data:
+        diccionario = dict(item.split(':') for item in row[4].split(','))
+        for clave, valor in diccionario.items():
+            valor = int(valor)
+            if clave in valores:
+                valores[clave].append(valor)
+            else:
+                valores[clave] = [valor]
+
+    for clave, lista_valores in valores.items():
+        valores_min[clave] = min(lista_valores)
+        valores_max[clave] = max(lista_valores)
+
+    lista_tuplas = [(clave,valores_min[clave], valores_max[clave]) for clave in valores.keys()]
+    return sorted(lista_tuplas)
 
 def pregunta_07():
     """
@@ -149,7 +214,15 @@ def pregunta_07():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        value = int(row[1])
+        if value in counter.keys():
+            counter[value].append(row[0])
+        else:
+            counter[value]= [row[0]]
+                   
+    return sorted (counter.items())   
 
 
 def pregunta_08():
@@ -174,7 +247,15 @@ def pregunta_08():
     ]
 
     """
-    return
+    counter = {}
+    for row in data:
+        value = int(row[1])
+        if value in counter.keys():
+            counter[value].append(row[0])
+        else:
+            counter[value]= [row[0]]
+                   
+    return [(r[0], sorted(list(set(r[1])))) for r in sorted(counter.items())]
 
 
 def pregunta_09():
@@ -197,7 +278,17 @@ def pregunta_09():
     }
 
     """
-    return
+    counter = {}
+    for row in data:
+        pairs = row [4].split(',')
+        for pair in pairs:
+            value = pair.split(':')
+            value[1] = int (value[1])
+            if value [0] in counter.keys():
+                counter[value[0]] += 1
+            else:
+                counter[value[0]]=1
+    return counter
 
 
 def pregunta_10():
@@ -218,7 +309,14 @@ def pregunta_10():
 
 
     """
-    return
+    counter = []
+    for row in data:
+        counter.append((
+            row[0],
+            len (row[3].split(',')),
+            len(row[4].split(','))
+            ))
+    return counter
 
 
 def pregunta_11():
@@ -239,7 +337,20 @@ def pregunta_11():
 
 
     """
-    return
+    suma_por_letra = {}
+
+    for fila in data:
+        numero = fila[1]
+        elementos = fila[3].split(',')
+        for elemento in elementos:
+            letra = elemento.split(',')[0]
+            if letra in suma_por_letra:
+                suma_por_letra[letra] += float(numero)
+            else:
+                suma_por_letra[letra] = float(numero)
+
+            
+    return dict(sorted(suma_por_letra.items()))
 
 
 def pregunta_12():
@@ -257,4 +368,12 @@ def pregunta_12():
     }
 
     """
-    return
+    counter ={}
+    for row in data:
+        if row[0] not in counter.keys():
+            counter[row[0]] = 0
+        pairs = row[4].replace (':',',').split(',')
+        for pair in pairs:
+            if pair.isdigit():
+                counter[row[0]] += int (pair)
+    return counter
